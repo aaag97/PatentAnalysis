@@ -20,7 +20,6 @@ from PIL import Image
 
 def OCR_Pages(pages):
     patent_str = ''
-    
     for page_index in range(len(pages)):
         str_from_img = pytesseract.image_to_string(pages[page_index], config='--psm 1')
         patent_str = '{}{}'.format(patent_str, str_from_img)
