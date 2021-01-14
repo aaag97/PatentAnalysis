@@ -8,7 +8,6 @@ import numpy as np
 import os, json, cv2, random
 from cv2 import imshow
 import argparse
-import glob
 import multiprocessing as mp
 import time
 import cv2
@@ -27,8 +26,6 @@ from detectron2.checkpoint import DetectionCheckpointer
 from detectron2.utils.visualizer import ColorMode
 import argparse
 # setup_logger()
-
-from DetectronUtils import VisualizationDemo
 from detectron2.modeling import build_model
 from detectron2.checkpoint import DetectionCheckpointer
 import matplotlib.pyplot as plt

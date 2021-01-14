@@ -1,0 +1,16 @@
+detectron2=0.3
+torch=1.7.0
+torchvision=0.8.1
+numpy=1.19.2
+json=2.0.9
+cv2=4.4.0
+argparse=1.1
+tqdm=4.51.0
+PIL=8.0.1
+matplotlib=3.3.2
+re=2.2.1
+pytesseract=4.1.1
+PyPDF2=1.26.0
+autocorrect=2.2.2
+spacy=2.3.2
+pandas=1.1.4
