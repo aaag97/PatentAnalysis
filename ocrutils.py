@@ -1,3 +1,4 @@
+#deprecated
 from multiprocessing import Pool
 import os
 from pdf2image import convert_from_path, convert_from_bytes
