@@ -40,6 +40,7 @@ def classify_page(page_im, config_path='/Users/andrealphonse/Documents/UniStuff/
     page_im - the image of the page to segment
     config_path - the path to the detectron2 config yaml file
     weights_path - the path to a model
+    gpu - boolean to indicate whether to use a gpu or not
     Returns:
     output - the output of the model (a dictionary containing an Instances object)
     """
@@ -70,6 +71,7 @@ def classify_patent(pages, config_path='/Users/andrealphonse/Documents/UniStuff/
     pages - the images of the pages to segment
     config_path - the path to the detectron2 config yaml file
     weights_path - the path to a model
+    gpu - boolean to indicate whether to use a gpu or not
     Returns:
     outputs - a list of the outputs for each image (each output is a dictionary containing an Instances object)
     """
@@ -83,6 +85,7 @@ def page_has_drawing(page_im, config_path='/Users/andrealphonse/Documents/UniStu
     page_im - the image of the page to segment
     config_path - the path to the detectron2 config yaml file
     weights_path - the path to a model
+    gpu - boolean to indicate whether to use a gpu or not
     Returns:
     a boolean which is True if the page has a drawing according to the model and False otherwise
     """
@@ -96,6 +99,7 @@ def patent_has_drawing(pages, config_path='/Users/andrealphonse/Documents/UniStu
     pages - the images of the pages of the patent
     config_path - the path to the detectron2 config yaml file
     weights_path - the path to a model
+    gpu - boolean to indicate whether to use a gpu or not
     Returns:
     a boolean which is True if the patent has a drawing according to the model and False otherwise
     """
@@ -111,6 +115,7 @@ def extract_text_pages(pages, config_path='/Users/andrealphonse/Documents/UniStu
     pages - the images of the pages of the patent
     config_path - the path to the detectron2 config yaml file
     weights_path - the path to a model
+    gpu - boolean to indicate whether to use a gpu or not
     Returns:
     text_pages - the image files of the text pages
     indices - the indices of the text pages in the patent
@@ -131,6 +136,7 @@ def extract_class(pages, class_, config_path='/Users/andrealphonse/Documents/Uni
     class_ - the class the pages of which to extract
     config_path - the path to the detectron2 config yaml file
     weights_path - the path to a model
+    gpu - boolean to indicate whether to use a gpu or not
     Returns:
     imgs - the image files of the pages containing the class instance(s)
     """
@@ -150,6 +156,7 @@ def extract_imgs(pages, config_path='/Users/andrealphonse/Documents/UniStuff/MA/
     pages - the images of the pages of the patent
     config_path - the path to the detectron2 config yaml file
     weights_path - the path to a model
+    gpu - boolean to indicate whether to use a gpu or not
     Returns:
     imgs - the image files of the pages containing the figure instance(s)
     """    
@@ -162,6 +169,7 @@ def extract_text(pages, config_path='/Users/andrealphonse/Documents/UniStuff/MA/
     pages - the images of the pages of the patent
     config_path - the path to the detectron2 config yaml file
     weights_path - the path to a model
+    gpu - boolean to indicate whether to use a gpu or not
     Returns:
     imgs - the image files of the pages containing the text instance(s)
     """    
@@ -173,6 +181,7 @@ def segment_and_save_result_img(pages, output_dir, page_names, config_path='/Use
     Args:
     pages - the images of the pages of the patent
     output_dir - the directory we would like to save the segmented images in
+    gpu - boolean to indicate whether to use a gpu or not
     config_path - the path to the detectron2 config yaml file
     weights_path - the path to a model
     Returns:
