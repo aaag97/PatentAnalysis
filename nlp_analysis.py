@@ -1,13 +1,3 @@
-# import nltk
-# from nltk.tokenize import word_tokenize
-# from nltk.tag import pos_tag
-# from nltk.corpus import words
-# from nltk.metrics.distance import (
-#     edit_distance,
-#     jaccard_distance,
-#     )
-# from nltk.util import ngrams
-# nltk.download('words')
 import argparse
 import json
 import numpy as np
@@ -16,7 +6,6 @@ spell = Speller()
 import spacy
 from spacy import displacy
 from collections import Counter
-# from seg.newline.segmenter import NewLineSegmenter
 import os
 nlp = spacy.load("en_core_web_lg")
 

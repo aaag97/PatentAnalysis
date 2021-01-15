@@ -21,9 +21,9 @@ such that `<input>` is the path to a directory containing the patent pages as im
 In order to showcase the segmentation of a given patent, the following command could be used -
 
 ```
-python patent_classification.py -i <input> -o <output> -g <gpu>
+python patent_classification.py -i <input> -o <output> -g <gpu> -c <config> -w <weights>
 ```
-where `<input>` is the path to a directory containing the photos to be segmented, `<output>` is the directory to store the segmentation results and `<gpu>` should be `0` if the GPU is to be used and `1` otherwise.
+where `<input>` is the path to a directory containing the photos to be segmented, `<output>` is the directory to store the segmentation results and `<gpu>` should be `0` if the GPU is to be used and `1` otherwise, `<config>` is the path to the detectron2 model yaml configuration file and `<weights>` is the path to the .pth weights.
 It should be noted that `patent_classification.py` contains many useful function for patent page segmentation which could be used. These include:
 * _classify\_page_ which segments a page.
 * _classify\_patent_ which segments a patent.

@@ -232,20 +232,24 @@ def parse_args():
     parser.add_argument('-i', '--input', type=str, help='the path to a folder containing the images', required=True)
     parser.add_argument('-o', '--output', type=str, help='path to the output folder where the segmented images are to be stored', required=True)
     parser.add_argument('-g', '--gpu', type=int, help='0 if you would like to use the available gpu and 1 otherwise', required=True)
+    parser.add_argument('-c', '--config', type=str, help='path to detectron2 model configuration', required=True)
+    parser.add_argument('-w', '--weights', type=str, help='path to detectron2 model weights (.pth file)', required=True)
     args = parser.parse_args()
     return args
 
-def main(pages, output_path, page_names, gpu):
+def main(pages, output_path, page_names, config_path, weights_path, gpu):
     if gpu == 0:
         gpu_b = False
     else:
         gpu_b = True
-    segment_and_save_result_img(pages, output_dir=output_path, page_names=page_names, gpu=gpu_b)
+    segment_and_save_result_img(pages, output_dir=output_path, page_names=page_names, config_path=config_path, weights_path=weights_path, gpu=gpu_b)
 
 if __name__ == "__main__":
     args = parse_args()
     input_path = args.input
     output_path = args.output
+    config_path = args.config
+    weights_path = args.weights
     gpu = args.gpu
     pages, page_names = get_ordered_images(folder=input_path)
-    main(pages, output_path=output_path, page_names=page_names, gpu=gpu)
+    main(pages, output_path=output_path, page_names=page_names, config_path=config_path, weights_path=weights_path, gpu=gpu)
