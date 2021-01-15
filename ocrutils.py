@@ -19,6 +19,13 @@ from PIL import Image
 
 
 def OCR_Pages(pages):
+    """
+    function to OCR the pages given as an argument
+    Args:
+    pages - the list of pages in image form
+    Returns:
+    patent_str - a string of the all the pages after the OCR
+    """
     patent_str = ''
     for page_index in range(len(pages)):
         str_from_img = pytesseract.image_to_string(pages[page_index], config='--psm 1')
@@ -26,6 +33,15 @@ def OCR_Pages(pages):
     return patent_str
 
 def OCR_GB_patent(patent_pdf_path_index, patent_list, dest="/Volumes/Non-Backup_Files/GB-patents/MachineReadableBaseline/"):
+    """
+    function to OCR a Brtish patent
+    Args:
+    patent_pdf_path_index - the index of the patent number we want to OCR
+    patent_list - a list of patent number
+    dest - folder to use in which to store output
+    Returns:
+    None, writes text file in dest
+    """
     patent_str = ''
     patent_pdf_path = patent_list[patent_pdf_path_index]
     patent_name = patent_pdf_path.split('/')[-1][:-4]
@@ -41,6 +57,16 @@ def OCR_GB_patent(patent_pdf_path_index, patent_list, dest="/Volumes/Non-Backup_
         
         
 def OCR_US_patent(patent_nb_index, patent_dict, patent_list, dest="/Volumes/Non-Backup_Files/US-patents/MachineReadableBaseline/"):
+    """
+    function to OCR an American patent
+    Args:
+    patent_nb_index - the index of the patent number in patent_list
+    patent_dict - a dictionary from patent numbers to a list of the paths pointing to the page images of the patent numbers
+    patent_list - a list of patent numbers
+    dest - folder to use for storage of the resulting text file
+    Returns:
+    None, writes text file in dest
+    """
     patent_str = ''
     patent_nb = patent_list[patent_nb_index]
     
