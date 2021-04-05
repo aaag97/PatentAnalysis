@@ -54,7 +54,7 @@ where
 * `<folder>` is the path to the folder containing the patents (the program assumes that the patents are organized in a hierarchy such that the PDF files are three levels below this folder, e.g. this folder should be the Pre1900 and the PDF files should be contained in subfolders of the each year folder in the Pre1900 folder),
 * `<method>` is either `dl` if the deep learning method is to be used or `regex` if the regex method is to be used. In order to use the deep learning method, three additional arguments must be specified:
     * `-g <gpu>` where `<gpu>`  is 0 if there are no GPU's available and 1 otherwise,
-    * `-c <config>` where `<config>` is the path to the Detectron2 configuration file,
+    * `-c <config>` where `<config>` is the path to the Detectron2 configuration file (these can be found in the Detectron2 Config Files folder, the one to use depends on the model that you wish to use (the name of each model is in the name of each model configuration file),
     * `-w <weights>` where `<weights>` should be the path to the Detectron2 model to be used for image segmentation.
     
 For instance if you would like to use the regex method, the command should resemble -
