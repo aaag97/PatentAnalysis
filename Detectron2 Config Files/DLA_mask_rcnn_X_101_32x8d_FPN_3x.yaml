@@ -1,4 +1,5 @@
 _BASE_: "Base-RCNN-FPN.yaml"
+VERSION: 2
 MODEL:
   MASK_ON: True
 #  WEIGHTS: "detectron2://ImageNetPretrained/FAIR/X-101-32x8d.pkl"

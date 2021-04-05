@@ -1,4 +1,5 @@
 _BASE_: "Base-RCNN-FPN.yaml"
+VERSION: 2
 MODEL:
   WEIGHTS: "detectron2://COCO-InstanceSegmentation/mask_rcnn_R_101_FPN_3x/138205316/model_final_a3ec72.pkl"
   MASK_ON: True

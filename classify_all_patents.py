@@ -13,12 +13,31 @@ import datetime
 import glob
 import numpy as np
 import os
+import warnings
+from tqdm import tqdm
 
 def pdf_to_images(patent_pdf_path):
+    """
+    function to convert a pdf file to images
+    args:
+    patent_pdf_path - the path to the pdf file
+    returns:
+    pages - a list of the images
+    """
     pages = convert_from_path(patent_pdf_path)
     return pages
 
 def dl_method_classification(patent_pdf_path, config_path, weights_path, gpu):
+    """
+    function to determine whether a pdf file of a patent contains a drawing according to the DL method
+    args:
+    patent_pdf_path - the path to the pdf file
+    config_path - the path to the detectron2 model configuration file
+    weights_path - the path to the detectron2 model (weights)
+    gpu - whether a gpu is available or not (can be boolean or binary value)
+    returns:
+    does_it_have_drawing - True if patent contains a drawing and False otherwise
+    """
     pages = pdf_to_images(patent_pdf_path)
     cv_pages = []
     for i in range(len(pages)):
@@ -29,6 +48,17 @@ def dl_method_classification(patent_pdf_path, config_path, weights_path, gpu):
     return does_it_have_drawing
 
 def dl_method_add_classification(row, patents_path, config_path, weights_path, gpu):
+    """
+    function to add a "Has Drawing (according to DL method)" column to a row of an Excel file of patents
+    args:
+    row - a row in the given excel file
+    patents_path - path to folder containing the patents
+    config_path - the path to the detectron2 model configuration file
+    weights_path - the path to the detectron2 model (weights)
+    gpu - whether a gpu is available or not (can be boolean or binary value)
+    returns:
+    row - the same row with the extra column ("Has Drawing (according to DL method)")
+    """
     date = datetime.datetime.strptime(row['Date'], '%d/%m/%Y')
     year = date.year
     year_range = [year, year - 1, year + 1, year - 2, year + 2, year - 3, year + 3, year - 4, year + 4]
@@ -48,18 +78,46 @@ def dl_method_add_classification(row, patents_path, config_path, weights_path, g
     return row
 
 def dl_method_classification_all_patents(patents_excel_path, patents_path, output_filename, config_path, weights_path, gpu):
+    """
+    function to add a "Has Drawing (according to DL method)" column to an Excel file of patents
+    args:
+    patents_excel_path - the path to the Excel file containing the patent information
+    patents_path - path to folder containing the patents
+    output_filename - the name of the Excel file to output
+    config_path - the path to the detectron2 model configuration file
+    weights_path - the path to the detectron2 model (weights)
+    gpu - whether a gpu is available or not (can be boolean or binary value)
+    returns:
+    row - the same row with the extra column ("Has Drawing (according to DL method)")
+    """
     all_patents_gb_df = pd.read_excel(patents_excel_path)
     all_patents_gb_with_drawing_df = all_patents_gb_df.drop(columns=['Patentee', 'Subject', 'Class']).drop_duplicates()
-    all_patents_gb_with_drawing_df = all_patents_gb_with_drawing_df.apply(lambda row: dl_method_add_classification(row, patents_path, config_path, weights_path, gpu), axis=1)
+    tqdm.pandas()
+    all_patents_gb_with_drawing_df = all_patents_gb_with_drawing_df.progress_apply(lambda row: dl_method_add_classification(row, patents_path, config_path, weights_path, gpu), axis=1)
     all_patents_gb_df = all_patents_gb_df.merge(all_patents_gb_with_drawing_df, on=['Number', 'Date'])
     all_patents_gb_df.to_excel(output_filename)
 
 def regex_method_classification(patent_pdf_path):
+    """
+    function to determine whether a pdf file of a patent contains a drawing according to the regex method
+    args:
+    patent_pdf_path - the path to the pdf file
+    returns:
+    does_it_have_drawing - True if patent contains a drawing and False otherwise
+    """
     patent_str = OCR_from_pdf(patent_pdf_path)
     does_it_have_drawing = has_drawing(patent_str)
     return does_it_have_drawing is not None
 
 def regex_method_add_classification(row, patents_path):
+    """
+    function to add a "Has Drawing (according to Regex method)" column to a row of an Excel file of patents
+    args:
+    row - a row in the given excel file
+    patents_path - path to folder containing the patents
+    returns:
+    row - the same row with the extra column ("Has Drawing (according to Regex method)")
+    """
     date = datetime.datetime.strptime(row['Date'], '%d/%m/%Y')
     year = date.year
     year_range = [year, year - 1, year + 1, year - 2, year + 2, year - 3, year + 3, year - 4, year + 4]
@@ -79,9 +137,19 @@ def regex_method_add_classification(row, patents_path):
     return row
 
 def regex_method_classification_all_patents(patents_excel_path, patents_path, output_filename):
+    """
+    function to add a "Has Drawing (according to Regex method)" column to an Excel file of patents
+    args:
+    patents_excel_path - the path to the Excel file containing the patent information
+    patents_path - path to folder containing the patents
+    output_filename - the name of the Excel file to output
+    returns:
+    row - the same row with the extra column ("Has Drawing (according to Regex method)")
+    """
     all_patents_gb_df = pd.read_excel(patents_excel_path)
     all_patents_gb_with_drawing_df = all_patents_gb_df.drop(columns=['Patentee', 'Subject', 'Class']).drop_duplicates()
-    all_patents_gb_with_drawing_df = all_patents_gb_with_drawing_df.apply(lambda row: regex_method_add_classification(row, patents_path), axis=1)
+    tqdm.pandas()
+    all_patents_gb_with_drawing_df = all_patents_gb_with_drawing_df.progress_apply(lambda row: regex_method_add_classification(row, patents_path), axis=1)
     all_patents_gb_df = all_patents_gb_df.merge(all_patents_gb_with_drawing_df, on=['Number', 'Date'])
     all_patents_gb_df.to_excel(output_filename)
 
@@ -105,6 +173,7 @@ def parse_args():
     return args
 
 def main(args):
+    warnings.filterwarnings("ignore")
     method = args.method
     patents_excel_path = args.input
     output_excel_path = args.output
