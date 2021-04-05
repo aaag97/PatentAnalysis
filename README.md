@@ -41,3 +41,27 @@ python nlp_analysis.py -i <input> -o <output> -a <all_refs>
 where `<input>` is the path to the text file to be analyzed, `<output>` is the path to a json file to be created so that the results of the analysis should be stored and `<all_refs>` should be 1 if all pronouns find using the Spacy library should be returned (not recommended if there are spelling errors in the text file) and 0 otherwise.
 
 The training for the detectron2 model which was used for image detection was done in a [Google Colaboratory notebook](https://colab.research.google.com/drive/1JKKf8BoSE0_t7DOonMmlUoeTZ9334R8X?usp=sharing "LAYOUT ANALYSIS ON COLAB (DETECTRON2 TRAINING AND EVAL RESULTS)"). The Tesseract OCR process was also done in a [Google Colaboratory notebook](https://colab.research.google.com/drive/1nNmg5PLxYFgmxq9fambtWQkaHDjfdEos?usp=sharing "OCR PROCESS ON COLAB").
+
+## Script to add "Has Drawing" column
+
+The scipt to add a column to an excel file indicating whether the patent has a drawing or not is called classify_all_patents.py. In order to use it the following command must be used:
+
+```
+python3 classify_all_patents.py -i <excel_input> -f <folder> -o <output> -m <method> 
+```
+where 
+* `<excel_input>` is the path to  the Excel file (this file should contain a column "Number" for the patent number as well as a column "Date" where the date of the filing of the patents is given in the format "day/month/year" and a column "Pantentee" for the patentees),
+* `<folder>` is the path to the folder containing the patents (the program assumes that the patents are organized in a hierarchy such that the PDF files are three levels below this folder, e.g. this folder should be the Pre1900 and the PDF files should be contained in subfolders of the each year folder in the Pre1900 folder),
+* `<method>` is either `dl` if the deep learning method is to be used or `regex` if the regex method is to be used. In order to use the deep learning method, three additional arguments must be specified:
+    * `-g <gpu>` where `<gpu>`  is 0 if there are no GPU's available and 1 otherwise,
+    * `-c <config>` where `<config>` is the path to the Detectron2 configuration file,
+    * `-w <weights>` where `<weights>` should be the path to the Detectron2 model to be used for image segmentation.
+    
+For instance if you would like to use the regex method, the command should resemble -
+```
+python3 classify_all_patents.py -i <excel_input> -f <folder> -o <output> -m <method> 
+```
+- and if you would like to use the deep learning method, the command should look like -
+```
+python3 classify_all_patents.py -i <excel_input> -f <folder> -o <output> -m <method> -g <gpu> -c <config> -w <weights>
+```
