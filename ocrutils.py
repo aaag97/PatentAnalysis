@@ -17,6 +17,21 @@ import time
 import random
 from PIL import Image
 
+def OCR_from_pdf(patent_pdf_path):
+    """
+    function to OCR the pages of a patent given the path to a pdf of the patent
+    Args:
+    patent_pdf_path - path to pdf
+    Returns:
+    patent_str - a string of the all the pages after the OCR
+    """
+    patent_str = ''
+    pages = convert_from_path(patent_pdf_path)
+    for page_index in range(len(pages)):
+        page = pages[page_index]
+        str_from_page = pytesseract.image_to_string(page, config='--psm 1')
+        patent_str = '{}{}'.format(patent_str, str_from_page)
+    return patent_str
 
 def OCR_Pages(pages):
     """
