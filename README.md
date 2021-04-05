@@ -44,7 +44,7 @@ The training for the detectron2 model which was used for image detection was don
 
 ## Script to add "Has Drawing" column
 
-The scipt to add a column to an excel file indicating whether the patent has a drawing or not is called classify_all_patents.py. In order to use it the following command must be used:
+The scipt to add a column to an excel file indicating whether the patent has a drawing or not is called classify_all_patents.py. In order to run the scipt, all libraries in the file requirements.txt have to be installed. The script may be used as follows -
 
 ```
 python3 classify_all_patents.py -i <excel_input> -f <folder> -o <output> -m <method> 
